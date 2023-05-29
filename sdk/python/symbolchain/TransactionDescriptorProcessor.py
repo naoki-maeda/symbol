@@ -1,3 +1,6 @@
+from enum import Flag
+
+
 class TransactionDescriptorProcessor:
 	"""Processes and looks up transaction descriptor properties."""
 
@@ -22,7 +25,7 @@ class TransactionDescriptorProcessor:
 	def lookup_value(self, key):
 		"""Looks up the value for key."""
 		value = self._lookup_value_and_apply_type_hints(key)
-		if not any(isinstance(value, type_class) for type_class in [str, bytes, tuple]) and hasattr(value, '__iter__'):
+		if not any(isinstance(value, type_class) for type_class in [str, bytes, tuple]) and isinstance(value, list):
 			return [self.type_converter(item) for item in value]
 
 		return self.type_converter(value)
